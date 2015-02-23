@@ -1,0 +1,50 @@
+;; C311 Programming Languages
+;; Fall 2009
+;; Dana Vrajitoru
+;;
+;; Simulation of a small context-free grammar.
+
+; The rules of the grammar:
+; S => a T
+; T => b T
+; T => b V
+; V => a
+
+(setq L '(a b) N '(S T V))
+(S T V)
+
+;(setq rules '((S . (a T)) (T . (b T)) (T . (b V)) (V . a)))
+;((S a T) (T b T) (T b V) (V . a))
+
+
+(defun check-S (Lst)
+  (if (equal (car Lst) 'a) 
+      (check-T (cdr Lst))
+    nil))
+
+
+(defun check-T (Lst)
+  (if (equal (car Lst) 'b)
+      (or (check-T (cdr Lst))
+	  (check-V (cdr Lst)))
+    nil))
+
+
+(defun check-V (Lst)
+  (and (equal (car Lst) 'a) 
+       (not (cdr Lst))))
+
+
+(check-S '(a b a))
+t
+
+(check-S '(a b b b a))
+t
+
+(check-S '(b a b))
+nil
+
+
+
+
+
